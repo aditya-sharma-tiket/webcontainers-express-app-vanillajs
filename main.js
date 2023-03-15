@@ -70,7 +70,7 @@ async function startDevServer() {
   // Run `npm run start` to start the Express app
   await webcontainerInstance.spawn('npm', ['run', 'start']);
 
-bonjour();
+// bonjour();
   // Wait for `server-ready` event
   webcontainerInstance.on('server-ready', (port, url) => {
     iframeEl.src = url;

@@ -28,7 +28,7 @@ window.addEventListener("load", async () => {
   };
 
 
-  // await runCommand('echo',['hello world']);
+  await runCommand('echo',['Start using node on your browser']);
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();

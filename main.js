@@ -8,6 +8,7 @@ window.addEventListener("load", async () => {
   reportOutput(`self.crossOriginIsolated : ${self.crossOriginIsolated}`)
   reportOutput("Booting.....");
   const wc = await WebContainer.boot();
+  await wc.spawn('npm',['init']);
   reportOutput("Booting Complete");
 
   const runCommand = async (cmd, args) => {

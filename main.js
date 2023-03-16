@@ -9,7 +9,7 @@ import  {Client}  from 'node-ssdp';
 let webcontainerInstance;
 
 window.addEventListener('load', async () => {
-  textareaEl.value = files['index.js'].file.contents;
+  // textareaEl.value = files['index.js'].file.contents;
 
   textareaEl.addEventListener('input', (e) => {
     writeIndexJS(e.currentTarget.value);

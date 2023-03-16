@@ -39,6 +39,10 @@ window.addEventListener("load", async () => {
     reportOutput(args);
     await runCommand(cmd, args);
   });
+
+  serverBtn.addEventListener('click',()=>{
+    reportOutput('server started')
+  })
 });
 
 // Display
@@ -49,6 +53,7 @@ document.querySelector("#app").innerHTML = `
 </label>
 <button>Run</button>
 </form>
+<button id='startServer'>Start server</button>
 <pre>
   <code id="outputPannel" style="display: flex;height: 400px;background-color: black;color: white;border-radius: 4px;padding: 8px;width: 80% ; overflow: auto; flex-direction: column-reverse ;"> </code>
 </pre>
@@ -62,3 +67,4 @@ const outputPannel = document.getElementById("outputPannel");
 
 
 const command = document.getElementById("command");
+const serverBtn = document.getElementById("startServer");

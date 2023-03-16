@@ -10,8 +10,9 @@ window.addEventListener("load", async () => {
   const wc = await WebContainer.boot();
   reportOutput("Booting Complete");
 
-  const runCommand = async (command, args) => {
-    const process = await wc.spawn(command, args);
+  const runCommand = async (cmd, args) => {
+    
+    const process = await wc.spawn(cmd, args);
 
     process.output.pipeTo(
       new WritableStream({
@@ -33,9 +34,11 @@ window.addEventListener("load", async () => {
     e.preventDefault();
     const cmd = command.value.split(" ")[0];
     const args = command.value.split(" ").slice(1);
+    reportOutput(cmd);
+    reportOutput(args);
     await runCommand(cmd, args);
   });
-},1000);
+});
 
 // Display
 document.querySelector("#app").innerHTML = `

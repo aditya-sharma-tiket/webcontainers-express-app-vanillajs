@@ -1,4 +1,5 @@
 import { WebContainer } from "@webcontainer/api";
+import Bonjour,{Browser} from 'bonjour-service'
 
 const reportOutput = (output) => {
   outputPannel.textContent += "\n" + output;
@@ -9,6 +10,7 @@ window.addEventListener("load", async () => {
   reportOutput("Booting.....");
   const wc = await WebContainer.boot();
   await wc.spawn('npm',['init']);
+  await wc.spawn('npm',['i','bonjour-service']);
   reportOutput("Booting Complete");
 
   const runCommand = async (cmd, args) => {
@@ -35,14 +37,24 @@ window.addEventListener("load", async () => {
     e.preventDefault();
     const cmd = command.value.split(" ")[0];
     const args = command.value.split(" ").slice(1);
-    reportOutput(cmd);
-    reportOutput(args);
     await runCommand(cmd, args);
   });
 
   serverBtn.addEventListener('click',()=>{
-    reportOutput('server started')
+    getServices();
   })
+
+  const getServices=()=>{
+    try {
+      var browser=new Bonjour();
+      browser.find({ type: 'tms' }, function (service) {
+        reportOutput('Found an http server:', service)
+      });
+    } catch (error) {
+      reportOutput(error)
+    }
+    
+  }
 });
 
 // Display
@@ -53,7 +65,7 @@ document.querySelector("#app").innerHTML = `
 </label>
 <button>Run</button>
 </form>
-<button id='startServer'>Start server</button>
+<button id='startServer'>Discover services</button>
 <pre>
   <code id="outputPannel" style="display: flex;height: 400px;background-color: black;color: white;border-radius: 4px;padding: 8px;width: 80% ; overflow: auto; flex-direction: column-reverse ;"> </code>
 </pre>

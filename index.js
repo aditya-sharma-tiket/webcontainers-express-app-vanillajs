@@ -9,5 +9,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`express server is live at http://localhost:${port}`);
+  console.log(`express server is live at ws://localhost:${port}`);
 });

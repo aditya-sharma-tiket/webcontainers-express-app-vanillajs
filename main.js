@@ -51,7 +51,7 @@ window.addEventListener("load", async () => {
         reportOutput('Found an http server:', service)
       });
     } catch (error) {
-      reportOutput(error)
+      reportOutput('Encountered an'+"\n" +error)
     }
     
   }

@@ -5,6 +5,7 @@ const reportOutput = (output) => {
 };
 
 window.addEventListener("load", async () => {
+  reportOutput(`self.crossOriginIsolated : ${self.crossOriginIsolated}`)
   reportOutput("Booting.....");
   const wc = await WebContainer.boot();
   reportOutput("Booting Complete");
@@ -24,7 +25,6 @@ window.addEventListener("load", async () => {
       reportOutput(`Process failed and exited with code ${process.exit}`);
     }
   };
-  reportOutput(`self.crossOriginIsolated : ${self.crossOriginIsolated}`)
 
 
   // await runCommand('echo',['hello world']);
@@ -35,7 +35,7 @@ window.addEventListener("load", async () => {
     const args = command.value.split(" ").slice(1);
     await runCommand(cmd, args);
   });
-});
+},1000);
 
 // Display
 document.querySelector("#app").innerHTML = `

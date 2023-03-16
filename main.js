@@ -24,6 +24,8 @@ window.addEventListener("load", async () => {
       reportOutput(`Process failed and exited with code ${process.exit}`);
     }
   };
+  reportOutput(`self.crossOriginIsolated : ${self.crossOriginIsolated}`)
+
 
   // await runCommand('echo',['hello world']);
 

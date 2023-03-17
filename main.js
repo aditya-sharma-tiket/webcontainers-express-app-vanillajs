@@ -10,7 +10,7 @@ window.addEventListener("load", async () => {
   reportOutput("Booting.....");
   const wc = await WebContainer.boot();
   await wc.spawn('npm',['init']);
-  await wc.spawn('npm',['i','bonjour-service']);
+  await wc.spawn('npm',['i','bonjour']);
   reportOutput("Booting Complete");
 
   const runCommand = async (cmd, args) => {
@@ -44,16 +44,26 @@ window.addEventListener("load", async () => {
     getServices();
   })
 
-  const getServices=()=>{
-    try {
-      var browser=new Bonjour();
+  createBtn.addEventListener('click',()=>{
+    createServices();
+  })
+
+  const getServices=async()=>{
+    // try {
+    //   await wc.fs.writeFile('/main.js', "import {Bonjour} from 'bonjour-service'; const instance = new Bonjour(); instance.find({ type: 'tms' }, function (service) {console.log('Found an http server:', service)});");
+      
+    // } catch (error) {
+    //   reportOutput('Encountered an'+"\n" +error)
+    // }
+    var browser=new Bonjour();
       browser.find({ type: 'tms' }, function (service) {
         reportOutput('Found an http server:', service)
       });
-    } catch (error) {
-      reportOutput('Encountered an'+"\n" +error)
-    }
-    
+  }
+
+  const createServices=()=>{
+    var instance=new Bonjour();
+    instance.publish({ name: 'Network Discovery Server', type: 'tms',protocol:'tcp', port: 8080,host:'localhost' })
   }
 });
 
@@ -66,6 +76,8 @@ document.querySelector("#app").innerHTML = `
 <button>Run</button>
 </form>
 <button id='startServer'>Discover services</button>
+
+<button id='createServer'>Create services</button>
 <pre>
   <code id="outputPannel" style="display: flex;height: 400px;background-color: black;color: white;border-radius: 4px;padding: 8px;width: 80% ; overflow: auto; flex-direction: column-reverse ;"> </code>
 </pre>
@@ -80,3 +92,4 @@ const outputPannel = document.getElementById("outputPannel");
 
 const command = document.getElementById("command");
 const serverBtn = document.getElementById("startServer");
+const createBtn = document.getElementById("createServer");

@@ -1,5 +1,4 @@
 import { WebContainer } from "@webcontainer/api";
-import express from 'express';
 
 const reportOutput = (output) => {
   outputPannel.textContent += "\n" + output;
@@ -10,7 +9,6 @@ window.addEventListener("load", async () => {
   reportOutput("Booting.....");
   const wc = await WebContainer.boot();
   await wc.spawn("npm", ["init"]);
-  await wc.spawn("npm", ["install", "express"]);
   reportOutput("Booting Complete");
 
   const runCommand = async (cmd, args) => {
@@ -44,41 +42,41 @@ window.addEventListener("load", async () => {
 
   
 
-  const getServices = async () => {
-    // try {
-    //   await wc.fs.writeFile('/main.js', "import {Bonjour} from 'bonjour-service'; const instance = new Bonjour(); instance.find({ type: 'tms' }, function (service) {console.log('Found an http server:', service)});");
-
-    // } catch (error) {
-    //   reportOutput('Encountered an'+"\n" +error)
-    // }
-    // var browser = new Bonjour();
-    // browser.find({ type: "tms" }, function (service) {
-    //   reportOutput("Found an http server:", service);
-    // });
-  };
-
+  
 });
-const createServices = () => {
-  // var instance=new Bonjour();
-  // instance.publish({ name: 'Network Discovery Server', type: 'tms',protocol:'tcp', port: 8080,host:'localhost' })
-  var app = express();
-  const port = 8080;
-  app.get("/status", (req, res) => {
-    res.send({ val: "Connected to local server" });
-  });
+// const getServices = async () => {
+//   // try {
+//   //   await wc.fs.writeFile('/main.js', "import {Bonjour} from 'bonjour-service'; const instance = new Bonjour(); instance.find({ type: 'tms' }, function (service) {console.log('Found an http server:', service)});");
 
-  app.get("/checkConnection", (req, res) => {
-    res.send({ val: "established connection" });
-  });
+//   // } catch (error) {
+//   //   reportOutput('Encountered an'+"\n" +error)
+//   // }
+//   // var browser = new Bonjour();
+//   // browser.find({ type: "tms" }, function (service) {
+//   //   reportOutput("Found an http server:", service);
+//   // });
+// };
+// const createServices = () => {
+//   // var instance=new Bonjour();
+//   // instance.publish({ name: 'Network Discovery Server', type: 'tms',protocol:'tcp', port: 8080,host:'localhost' })
+//   var app = express();
+//   const port = 8080;
+//   app.get("/status", (req, res) => {
+//     res.send({ val: "Connected to local server" });
+//   });
 
-  app.listen(port, () => {
-    console.log(`Started the local host on port ${port}`);
-  });
-};
+//   app.get("/checkConnection", (req, res) => {
+//     res.send({ val: "established connection" });
+//   });
 
-createBtn.addEventListener("click", () => {
-  createServices();
-});
+//   app.listen(port, () => {
+//     console.log(`Started the local host on port ${port}`);
+//   });
+// };
+
+// createBtn.addEventListener("click", () => {
+//   createServices();
+// });
 
 // Display
 document.querySelector("#app").innerHTML = `

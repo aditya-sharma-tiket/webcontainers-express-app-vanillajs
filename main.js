@@ -12,7 +12,7 @@ window.addEventListener("load", async () => {
   const wc = await WebContainer.boot();
   await wc.spawn("npm", ["init"]);
   await wc.spawn("npm", ["i", "bonjour"]);
-  // await wc.spawn("npm", ["i", "express"]);
+  await wc.spawn("npm", ["i", "express"]);
   reportOutput("Booting Complete");
 
   const runCommand = async (cmd, args) => {
@@ -64,19 +64,19 @@ window.addEventListener("load", async () => {
   const createServices = () => {
     // var instance=new Bonjour();
     // instance.publish({ name: 'Network Discovery Server', type: 'tms',protocol:'tcp', port: 8080,host:'localhost' })
-    // var app = express();
-    // const port = 8080;
-    // app.get("/status", (req, res) => {
-    //   res.send({ val: "Connected to local server" });
-    // });
+    var app = express();
+    const port = 8080;
+    app.get("/status", (req, res) => {
+      res.send({ val: "Connected to local server" });
+    });
 
-    // app.get("/checkConnection", (req, res) => {
-    //   res.send({ val: "established connection" });
-    // });
+    app.get("/checkConnection", (req, res) => {
+      res.send({ val: "established connection" });
+    });
 
-    // app.listen(port, () => {
-    //   console.log(`Started the local host on port ${port}`);
-    // });
+    app.listen(port, () => {
+      console.log(`Started the local host on port ${port}`);
+    });
   };
 });
 

@@ -12,7 +12,7 @@ window.addEventListener("load", async () => {
   const wc = await WebContainer.boot();
   await wc.spawn("npm", ["init"]);
   await wc.spawn("npm", ["i", "bonjour"]);
-  await wc.spawn("npm", ["i", "express"]);
+  // await wc.spawn("npm", ["i", "express"]);
   reportOutput("Booting Complete");
 
   const runCommand = async (cmd, args) => {

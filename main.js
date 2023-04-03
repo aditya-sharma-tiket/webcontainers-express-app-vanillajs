@@ -1,5 +1,5 @@
 import { WebContainer } from "@webcontainer/api";
-import { Express } from "express";
+var express = require("express");
 
 const reportOutput = (output) => {
   outputPannel.textContent += "\n" + output;

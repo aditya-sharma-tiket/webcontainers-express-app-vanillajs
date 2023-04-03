@@ -1,5 +1,6 @@
 import { WebContainer } from "@webcontainer/api";
 import Bonjour, { Browser } from "bonjour-service";
+import { express } from "express";
 
 const reportOutput = (output) => {
   outputPannel.textContent += "\n" + output;

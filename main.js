@@ -1,6 +1,6 @@
 import { WebContainer } from "@webcontainer/api";
 import Bonjour, { Browser } from "bonjour-service";
-import { Express } from "express";
+import express from 'express';
 
 const reportOutput = (output) => {
   outputPannel.textContent += "\n" + output;
@@ -64,7 +64,7 @@ window.addEventListener("load", async () => {
   const createServices = () => {
     // var instance=new Bonjour();
     // instance.publish({ name: 'Network Discovery Server', type: 'tms',protocol:'tcp', port: 8080,host:'localhost' })
-    var app = new Express();
+    var app = express();
     const port = 8080;
     app.get("/status", (req, res) => {
       res.send({ val: "Connected to local server" });

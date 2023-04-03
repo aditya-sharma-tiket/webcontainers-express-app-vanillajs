@@ -1,20 +1,20 @@
 import { WebContainer } from "@webcontainer/api";
-import Bonjour,{Browser} from 'bonjour-service'
+import Bonjour, { Browser } from "bonjour-service";
 
 const reportOutput = (output) => {
   outputPannel.textContent += "\n" + output;
 };
 
 window.addEventListener("load", async () => {
-  reportOutput(`self.crossOriginIsolated : ${self.crossOriginIsolated}`)
+  reportOutput(`self.crossOriginIsolated : ${self.crossOriginIsolated}`);
   reportOutput("Booting.....");
   const wc = await WebContainer.boot();
-  await wc.spawn('npm',['init']);
-  await wc.spawn('npm',['i','bonjour']);
+  await wc.spawn("npm", ["init"]);
+  await wc.spawn("npm", ["i", "bonjour"]);
+  await wc.spawn("npm", ["i", "express"]);
   reportOutput("Booting Complete");
 
   const runCommand = async (cmd, args) => {
-    
     const process = await wc.spawn(cmd, args);
 
     process.output.pipeTo(
@@ -30,8 +30,7 @@ window.addEventListener("load", async () => {
     }
   };
 
-
-  await runCommand('echo',['Start using nodejs on your browser']);
+  await runCommand("echo", ["Start using nodejs on your browser"]);
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -40,31 +39,44 @@ window.addEventListener("load", async () => {
     await runCommand(cmd, args);
   });
 
-  serverBtn.addEventListener('click',()=>{
-    getServices();
-  })
+  // serverBtn.addEventListener('click',()=>{
+  //   getServices();
+  // })
 
-  createBtn.addEventListener('click',()=>{
+  createBtn.addEventListener("click", () => {
     createServices();
-  })
+  });
 
-  const getServices=async()=>{
+  const getServices = async () => {
     // try {
     //   await wc.fs.writeFile('/main.js', "import {Bonjour} from 'bonjour-service'; const instance = new Bonjour(); instance.find({ type: 'tms' }, function (service) {console.log('Found an http server:', service)});");
-      
+
     // } catch (error) {
     //   reportOutput('Encountered an'+"\n" +error)
     // }
-    var browser=new Bonjour();
-      browser.find({ type: 'tms' }, function (service) {
-        reportOutput('Found an http server:', service)
-      });
-  }
+    var browser = new Bonjour();
+    browser.find({ type: "tms" }, function (service) {
+      reportOutput("Found an http server:", service);
+    });
+  };
 
-  const createServices=()=>{
-    var instance=new Bonjour();
-    instance.publish({ name: 'Network Discovery Server', type: 'tms',protocol:'tcp', port: 8080,host:'localhost' })
-  }
+  const createServices = () => {
+    // var instance=new Bonjour();
+    // instance.publish({ name: 'Network Discovery Server', type: 'tms',protocol:'tcp', port: 8080,host:'localhost' })
+    var app = express();
+    const port = 8080;
+    app.get("/status", (req, res) => {
+      res.send({ val: "Connected to local server" });
+    });
+
+    app.get("/checkConnection", (req, res) => {
+      res.send({ val: "established connection" });
+    });
+
+    app.listen(port, () => {
+      console.log(`Started the local host on port ${port}`);
+    });
+  };
 });
 
 // Display
@@ -83,12 +95,9 @@ document.querySelector("#app").innerHTML = `
 </pre>
 `;
 
-
 const form = document.getElementById("form");
 
-
 const outputPannel = document.getElementById("outputPannel");
-
 
 const command = document.getElementById("command");
 const serverBtn = document.getElementById("startServer");

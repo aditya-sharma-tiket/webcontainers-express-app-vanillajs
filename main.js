@@ -1,5 +1,4 @@
 import { WebContainer } from "@webcontainer/api";
-import Bonjour, { Browser } from "bonjour-service";
 import express from 'express';
 
 const reportOutput = (output) => {
@@ -11,7 +10,6 @@ window.addEventListener("load", async () => {
   reportOutput("Booting.....");
   const wc = await WebContainer.boot();
   await wc.spawn("npm", ["init"]);
-  await wc.spawn("npm", ["i", "bonjour"]);
   await wc.spawn("npm", ["i", "express"]);
   reportOutput("Booting Complete");
 
@@ -55,10 +53,10 @@ window.addEventListener("load", async () => {
     // } catch (error) {
     //   reportOutput('Encountered an'+"\n" +error)
     // }
-    var browser = new Bonjour();
-    browser.find({ type: "tms" }, function (service) {
-      reportOutput("Found an http server:", service);
-    });
+    // var browser = new Bonjour();
+    // browser.find({ type: "tms" }, function (service) {
+    //   reportOutput("Found an http server:", service);
+    // });
   };
 
   const createServices = () => {

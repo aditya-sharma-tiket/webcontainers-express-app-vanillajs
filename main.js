@@ -1,4 +1,5 @@
 import { WebContainer } from "@webcontainer/api";
+var http = require("http");
 
 const reportOutput = (output) => {
   outputPannel.textContent += "\n" + output;
@@ -35,11 +36,20 @@ window.addEventListener("load", async () => {
     const args = command.value.split(" ").slice(1);
     await runCommand(cmd, args);
   });
-
-  
-
-  
 });
+
+const createServer = () => {
+  
+
+  http
+    .createServer(function (req, res) {
+      res.write("Hello, Node.js!"); //write a response to the client
+      res.end(); //end the response
+    })
+    .listen(8080); //the server object listens on port 8080
+
+  console.log("Server running on port 8080");
+};
 // Display
 document.querySelector("#app").innerHTML = `
 <form id="form">

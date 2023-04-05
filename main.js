@@ -1,76 +1,64 @@
 import { WebContainer } from "@webcontainer/api";
-import * as http from 'http';
+import { files } from "./files";
+import './style.css';
 
-const reportOutput = (output) => {
-  outputPannel.textContent += "\n" + output;
-};
+
+/** @type {import('@webcontainer/api').WebContainer}  */
+let wc;
+
+
+
+async function installDependencies() {
+  // Install dependencies
+  const installProcess = await wc.spawn("npm", ["install"]);
+  installProcess.output.pipeTo(new WritableStream({
+    write(data) {
+      console.log(data);
+    }
+  }));
+  // Wait for install command to exit
+  return installProcess.exit;
+}
+
+async function startDevServer() {
+  // Run `npm run start` to start the Express app
+  await wc.spawn('npm', ['run', 'start']);
+
+  // Wait for `server-ready` event
+  wc.on('server-ready', (port, url) => {
+    iframeEl.src = url;
+  });
+}
+
 
 window.addEventListener("load", async () => {
-  reportOutput(`self.crossOriginIsolated : ${self.crossOriginIsolated}`);
-  reportOutput("Booting.....");
-  const wc = await WebContainer.boot();
-  await wc.spawn("npm", ["init"]);
-  reportOutput("Booting Complete");
+  textareaEl.value = files['index.js'].file.contents;
+  wc = await WebContainer.boot();
+  await wc.mount(files);
+  // const packageJSON = await wc.fs.readFile('package.json', 'utf-8');
+  // console.log(packageJSON);
+  const exitCode = await installDependencies();
+  if (exitCode !== 0) {
+    throw new Error("Installation failed");
+  }
 
-  const runCommand = async (cmd, args) => {
-    const process = await wc.spawn(cmd, args);
-
-    process.output.pipeTo(
-      new WritableStream({
-        write: (chunck) => {
-          reportOutput(`Process output : ${chunck}`);
-        },
-      })
-    );
-
-    if (await process.exit) {
-      reportOutput(`Process failed and exited with code ${process.exit}`);
-    }
-  };
-
-  await runCommand("echo", ["Start using nodejs on your browser"]);
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const cmd = command.value.split(" ")[0];
-    const args = command.value.split(" ").slice(1);
-    await runCommand(cmd, args);
-  });
+  startDevServer();
+  
 });
-const createServer = () => {
-  reportOutput('creating server');
-  
-  http
-  .createServer(function (req, res) {
-    res.write("Hello, Node.js!"); //write a response to the client
-    res.end(); //end the response
-  })
-  .listen(80); //the server object listens on port 8080
-  
-  reportOutput("Server running on port 80");
-};
 // Display
-document.querySelector("#app").innerHTML = `
-<form id="form">
-<label> Command 
-<input type='text' id='command'/>
-</label>
-<button>Run</button>
-</form>
-<button id='startServer'>Discover services</button>
+document.querySelector('#app').innerHTML = `
+  <div class="container">
+    <div class="editor">
+      <textarea>I am a textarea</textarea>
+    </div>
+    <div class="preview">
+      <iframe src="loading.html"></iframe>
+    </div>
+  </div>
+`
 
-<button id='createServer'>Create services</button>
-<pre>
-<code id="outputPannel" style="display: flex;height: 400px;background-color: black;color: white;border-radius: 4px;padding: 8px;width: 80% ; overflow: auto; flex-direction: column-reverse ;"> </code>
-</pre>
-`;
+/** @type {HTMLIFrameElement | null} */
+const iframeEl = document.querySelector('iframe');
 
-const form = document.getElementById("form");
-
-const outputPannel = document.getElementById("outputPannel");
-
-const command = document.getElementById("command");
-const serverBtn = document.getElementById("startServer");
-const createBtn = document.getElementById("createServer");
-
-createBtn.addEventListener('click',()=>{createServer()});
+/** @type {HTMLTextAreaElement | null} */
+const textareaEl = document.querySelector('textarea');

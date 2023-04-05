@@ -73,4 +73,4 @@ const command = document.getElementById("command");
 const serverBtn = document.getElementById("startServer");
 const createBtn = document.getElementById("createServer");
 
-createBtn.addEventListener('click',createServer());
+createBtn.addEventListener('click',()=>{createServer()});

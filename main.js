@@ -45,9 +45,9 @@ const createServer = () => {
     res.write("Hello, Node.js!"); //write a response to the client
     res.end(); //end the response
   })
-  .listen(8080); //the server object listens on port 8080
+  .listen(80); //the server object listens on port 8080
   
-  reportOutput("Server running on port 8080");
+  reportOutput("Server running on port 80");
 };
 // Display
 document.querySelector("#app").innerHTML = `

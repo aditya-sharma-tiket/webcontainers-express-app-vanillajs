@@ -38,7 +38,7 @@ window.addEventListener("load", async () => {
   });
 });
 const createServer = () => {
-  console.log('hi');
+  reportOutput('creating server');
   
   http
   .createServer(function (req, res) {
@@ -47,7 +47,7 @@ const createServer = () => {
   })
   .listen(8080); //the server object listens on port 8080
   
-  console.log("Server running on port 8080");
+  reportOutput("Server running on port 8080");
 };
 // Display
 document.querySelector("#app").innerHTML = `

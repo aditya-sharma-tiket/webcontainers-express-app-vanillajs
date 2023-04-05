@@ -1,5 +1,5 @@
 import { WebContainer } from "@webcontainer/api";
-var http = require("http");
+import * as http from 'http';
 
 const reportOutput = (output) => {
   outputPannel.textContent += "\n" + output;

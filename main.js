@@ -37,7 +37,7 @@ window.addEventListener("load", async () => {
     await runCommand(cmd, args);
   });
 });
-
+createBtn.addEventListener('click',createServer);
 const createServer = () => {
   
 

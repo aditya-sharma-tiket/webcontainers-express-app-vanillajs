@@ -1,5 +1,4 @@
 import { WebContainer } from "@webcontainer/api";
-var express = require("express");
 
 const reportOutput = (output) => {
   outputPannel.textContent += "\n" + output;
@@ -37,48 +36,10 @@ window.addEventListener("load", async () => {
     await runCommand(cmd, args);
   });
 
-  // serverBtn.addEventListener('click',()=>{
-  //   getServices();
-  // })
-
   
 
   
 });
-// const getServices = async () => {
-//   // try {
-//   //   await wc.fs.writeFile('/main.js', "import {Bonjour} from 'bonjour-service'; const instance = new Bonjour(); instance.find({ type: 'tms' }, function (service) {console.log('Found an http server:', service)});");
-
-//   // } catch (error) {
-//   //   reportOutput('Encountered an'+"\n" +error)
-//   // }
-//   // var browser = new Bonjour();
-//   // browser.find({ type: "tms" }, function (service) {
-//   //   reportOutput("Found an http server:", service);
-//   // });
-// };
-// const createServices = () => {
-//   // var instance=new Bonjour();
-//   // instance.publish({ name: 'Network Discovery Server', type: 'tms',protocol:'tcp', port: 8080,host:'localhost' })
-//   var app = express();
-//   const port = 8080;
-//   app.get("/status", (req, res) => {
-//     res.send({ val: "Connected to local server" });
-//   });
-
-//   app.get("/checkConnection", (req, res) => {
-//     res.send({ val: "established connection" });
-//   });
-
-//   app.listen(port, () => {
-//     console.log(`Started the local host on port ${port}`);
-//   });
-// };
-
-// createBtn.addEventListener("click", () => {
-//   createServices();
-// });
-
 // Display
 document.querySelector("#app").innerHTML = `
 <form id="form">
